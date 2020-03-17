@@ -5,7 +5,7 @@ with open('README.md', 'r') as file:
 
 setuptools.setup(
     name='alchemyml',  
-    version='0.1.1',
+    version='0.1.2',
     author="Alchemy Machine Learning, S. L.",
     author_email="admin@alchemyml.com",
     description="AlchemyML API package",

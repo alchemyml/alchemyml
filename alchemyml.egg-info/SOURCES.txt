@@ -1,0 +1,6 @@
+README.md
+setup.py
+alchemyml.egg-info/PKG-INFO
+alchemyml.egg-info/SOURCES.txt
+alchemyml.egg-info/dependency_links.txt
+alchemyml.egg-info/top_level.txt

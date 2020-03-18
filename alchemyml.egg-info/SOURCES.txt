@@ -1,5 +1,6 @@
 MANIFEST.in
 README.md
+dict_urlData.pickle
 setup.py
 alchemyml/CRUD_classes.py
 alchemyml/__init__.py

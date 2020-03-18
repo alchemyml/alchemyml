@@ -9,7 +9,7 @@ from requests.adapters import HTTPAdapter
 
 host = 'https://alchemyml.com' # 127.0.0.1:8011'
 url_base = host + '/api'
-with open('alchemyml/dict_urlData.pickle', 'rb') as file:
+with open('dict_urlData.pickle', 'rb') as file:
     dict_urlData = pkl.load(file)
 
 def retry_session(retries, session = None, backoff_factor = 0.3, 

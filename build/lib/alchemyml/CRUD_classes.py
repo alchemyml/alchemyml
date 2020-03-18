@@ -3,7 +3,7 @@ import json
 import os
 import sys
 
-from request_handler import retry_session, general_call
+from .request_handler import retry_session, general_call
 
 host = 'https://alchemyml.com' # 127.0.0.1:8011'
 url_base = host + '/api'

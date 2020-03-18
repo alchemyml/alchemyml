@@ -1,10 +1,10 @@
 MANIFEST.in
 README.md
-dict_urlData.pickle
 setup.py
 alchemyml/CRUD_classes.py
 alchemyml/__init__.py
 alchemyml/_version.py
+alchemyml/dict_urlData.pickle
 alchemyml/manual_ops.py
 alchemyml/request_handler.py
 alchemyml.egg-info/PKG-INFO

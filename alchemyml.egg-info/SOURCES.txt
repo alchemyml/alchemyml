@@ -2,6 +2,7 @@ README.md
 setup.py
 alchemyml/CRUD_classes.py
 alchemyml/__init__.py
+alchemyml/_version.py
 alchemyml/manual_ops.py
 alchemyml/request_handler.py
 alchemyml.egg-info/PKG-INFO

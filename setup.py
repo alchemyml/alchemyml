@@ -1,7 +1,7 @@
 import setuptools
 
 import re
-VERSIONFILE = "_version.py"
+VERSIONFILE = "alchemyml/_version.py"
 verstrline = open(VERSIONFILE, "rt").read()
 VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
 mo = re.search(VSRE, verstrline, re.M)

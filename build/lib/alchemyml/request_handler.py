@@ -3,13 +3,17 @@ import json
 import os
 import requests
 import pickle as pkl
+import inspect
 
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 
 host = 'https://alchemyml.com' # 127.0.0.1:8011'
 url_base = host + '/api'
-with open('dict_urlData.pickle', 'rb') as file:
+
+filename = inspect.getframeinfo(inspect.currentframe()).filename
+absolute_path = os.path.dirname(os.path.abspath(filename))
+with open(absolute_path + '\dict_urlData.pickle', 'rb') as file:
     dict_urlData = pkl.load(file)
 
 def retry_session(retries, session = None, backoff_factor = 0.3, 

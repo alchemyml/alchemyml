@@ -3,12 +3,11 @@ import json
 import os
 import requests
 import pickle as pkl
-import inspect
 
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 
-from _dict_urlData import dict_urlData
+from ._dict_urlData import dict_urlData
 
 host = 'https://alchemyml.com'
 url_base = host + '/api'

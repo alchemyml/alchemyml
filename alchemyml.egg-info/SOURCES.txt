@@ -7,7 +7,6 @@ alchemyml/_dict_urlData.py
 alchemyml/_manual_ops.py
 alchemyml/_request_handler.py
 alchemyml/_version.py
-alchemyml/dict_urlData.pickle
 alchemyml.egg-info/PKG-INFO
 alchemyml.egg-info/SOURCES.txt
 alchemyml.egg-info/dependency_links.txt

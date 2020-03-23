@@ -8,13 +8,10 @@ import inspect
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 
-host = 'https://alchemyml.com' # 127.0.0.1:8011'
-url_base = host + '/api'
+from _dict_urlData import dict_urlData
 
-filename = inspect.getframeinfo(inspect.currentframe()).filename
-absolute_path = os.path.dirname(os.path.abspath(filename))
-with open(absolute_path + '\dict_urlData.pickle', 'rb') as file:
-    dict_urlData = pkl.load(file)
+host = 'https://alchemyml.com'
+url_base = host + '/api'
 
 def retry_session(retries, session = None, backoff_factor = 0.3, 
                   status_forcelist = (500, 502, 503, 504)):

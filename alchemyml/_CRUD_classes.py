@@ -3,16 +3,13 @@ import json
 import os
 import sys
 
-from .request_handler import retry_session, general_call
+from ._request_handler import retry_session, general_call
 
-host = 'https://alchemyml.com' # 127.0.0.1:8011'
+host = 'https://alchemyml.com'
 url_base = host + '/api'
 
-# api_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTgzOTk2Njg1LCJqdGkiOiJiZGUwNzgyOGU5OTI0OGY5YjA0MWU2NGE3OGU2NjU2NyIsInVzZXJfaWQiOjEyfQ.v3KJg0IEWRNUTNnOzaiFX7GZDQjNy1ja7GT0bRQljoQ'
-
-class autentication():
+class authentication():
     def get_api_token(self, username, password):
-        global api_token # Prescindir de esto!
         url = url_base + '/token/'
         data = json.dumps({'username':username, 'password':password})
         session = retry_session(retries = 10)
@@ -20,14 +17,13 @@ class autentication():
 
         if r.status_code == 200:
             tokenJSON = json.loads(r.text)
-            api_token = tokenJSON['access']
             return r.status_code, tokenJSON['access']
         else:
             msgJSON = json.loads(r.text)
             msg = msgJSON['message']
             return r.status_code, msg
 
-class dataset(): # datasets? 
+class dataset():
 
     class_name = sys._getframe().f_code.co_name
 
@@ -38,7 +34,7 @@ class dataset(): # datasets?
 
         return general_call(str_meth_name, input_args, input_kwargs)
 
-    def view(self, *args, **kwargs): # PALABRA RESERVADA!
+    def get(self, *args, **kwargs): # PALABRA RESERVADA!
         str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
@@ -67,7 +63,7 @@ class dataset(): # datasets?
 
         return general_call(str_meth_name, input_args, input_kwargs)
 
-class experiment(): # experiments?
+class experiment():
 
     class_name = sys._getframe().f_code.co_name
 
@@ -78,7 +74,7 @@ class experiment(): # experiments?
 
         return general_call(str_meth_name, input_args, input_kwargs)
 
-    def view(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
@@ -134,7 +130,7 @@ class experiment(): # experiments?
 
         return general_call(str_meth_name, input_args, input_kwargs)
 
-class project(): # projects?
+class project():
 
     class_name = sys._getframe().f_code.co_name
 
@@ -145,7 +141,7 @@ class project(): # projects?
 
         return general_call(str_meth_name, input_args, input_kwargs)    
 
-    def view(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']

@@ -1,5 +1,5 @@
 import sys
-from .request_handler import general_call
+from ._request_handler import general_call
 
 class actions():
 

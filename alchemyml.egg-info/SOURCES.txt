@@ -1,4 +1,3 @@
-MANIFEST.in
 README.md
 setup.py
 alchemyml/_CRUD_classes.py

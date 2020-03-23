@@ -56,9 +56,10 @@ def general_call(str_meth_name, input_args, input_kwargs):
                 file_last_modif_date = int(round(os.stat(file_path).st_mtime))
             else:
                 reply = {'success': False,
+                          'status_code':'',
                           'message': 'Result Upload SCRIPT: File not found - NOT valid file path.',
                           'data': {'invalid input': 'File not found - NOT valid file path.'}}
-                return ('', reply)
+                return reply
             if str_meth_name == 'dataset.upload':
                 mi_data["last_modification_date"] = file_last_modif_date
             files = {'file_path': open(file_path, 'rb')}
@@ -66,8 +67,10 @@ def general_call(str_meth_name, input_args, input_kwargs):
             api_request = session.post(urlData, headers = headers, 
                                        files = files, data = mi_data, verify = False) # verify quitar
         
+        res_json = json.loads(api_request.text)
+        res_json_return = res_json.copy()
+        res_json_return['status_code'] = api_request.status_code
         if api_request.status_code == 200:
-            res_json = json.loads(api_request.text)
             if 'data' in res_json.keys():
                 if isinstance(res_json['data'], dict ) and ('url' in res_json['data'].keys()):
                     session = retry_session(retries=10)
@@ -75,12 +78,14 @@ def general_call(str_meth_name, input_args, input_kwargs):
                     f_name = str(res_json['data']['url']).split("/")[-1]
                     open(f_name, 'wb').write(r.content)
 
-                    return api_request.status_code, 'File '+ f_name + ' successfully generated.'
+                    return 'File '+ f_name + ' successfully generated.'
+                
                 else:
-                    return api_request.status_code, json.loads(api_request.text)
+                    return res_json_return
+
             else:
-                return api_request.status_code, json.loads(api_request.text)
+                return res_json_return
     
         else:
-            return (api_request.status_code,(json.loads(api_request.text))) 
+            return res_json_return
     

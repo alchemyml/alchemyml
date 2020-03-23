@@ -22,7 +22,7 @@ AlchemyML API
 
 
 ## List of scripts and their functions
-* CRUD_classes
+* _CRUD_classes
   * authentication()
     * get_api_token
   * dataset()
@@ -46,7 +46,7 @@ AlchemyML API
     * view
     * update
     * delete
-* manual_ops
+* _manual_ops
   * actions()
     * list_preprocessed_dataframes
     * download_dataframe

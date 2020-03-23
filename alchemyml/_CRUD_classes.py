@@ -17,11 +17,11 @@ class authentication():
 
         if r.status_code == 200:
             tokenJSON = json.loads(r.text)
-            return r.status_code, tokenJSON['access']
+            return tokenJSON['access']
         else:
             msgJSON = json.loads(r.text)
             msg = msgJSON['message']
-            return r.status_code, msg
+            return msg
 
 class dataset():
 

@@ -1,20 +1,18 @@
 # vers anterior AML2310.py
 import json
 import os
-import requests
-import pickle as pkl
 
 from urllib3.util.retry import Retry
+from requests import Session
 from requests.adapters import HTTPAdapter
 
 from ._dict_urlData import dict_urlData
 
-host = 'https://alchemyml.com'
-url_base = host + '/api'
+url_base = 'https://alchemyml.com/api'
 
 def retry_session(retries, session = None, backoff_factor = 0.3, 
                   status_forcelist = (500, 502, 503, 504)):
-    session = session or requests.Session()
+    session = session or Session()
     retry = Retry(
         total = retries,
         read = retries,

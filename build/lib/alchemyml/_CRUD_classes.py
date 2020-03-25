@@ -5,9 +5,6 @@ import sys
 
 from ._request_handler import retry_session, general_call
 
-host = 'https://alchemyml.com'
-url_base = host + '/api'
-
 class authentication():
     def get_api_token(self, username, password):
         '''
@@ -20,7 +17,7 @@ class authentication():
         username (str): Username. 
         password (str): Password. 
         '''
-        url = url_base + '/token/'
+        url = 'https://alchemyml.com/api/token/'
         data = json.dumps({'username':username, 'password':password})
         session = retry_session(retries = 10)
         r = session.post(url, data, verify = False)

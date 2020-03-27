@@ -1,9 +1,6 @@
 # AlchemyML API Documentation
-Version Date: 2020-03-24
+Version Date: 2020-03-26
 <hr>
-
-## Table of Contents
-[TOC]
 
 ## Prerequisites
 * Python >= 3.6
@@ -86,7 +83,7 @@ def get_api_token(self, username, password):
     url = url_base + '/token/'
     data = json.dumps({'username':username, 'password':password})
     session = retry_session(retries = 10)
-    r = session.post(url, data, verify = False)
+    r = session.post(url, data)
 
     if r.status_code == 200:
         tokenJSON = json.loads(r.text)

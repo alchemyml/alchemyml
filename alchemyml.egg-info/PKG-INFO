@@ -1,17 +1,14 @@
 Metadata-Version: 2.1
 Name: alchemyml
-Version: 0.1.25
+Version: 0.1.26
 Summary: AlchemyML API package
 Home-page: https://github.com/alchemyml/alchemyml
 Author: Alchemy Machine Learning, S. L.
 Author-email: admin@alchemyml.com
 License: UNKNOWN
 Description: # AlchemyML API Documentation
-        Version Date: 2020-03-24
+        Version Date: 2020-03-26
         <hr>
-        
-        ## Table of Contents
-        [TOC]
         
         ## Prerequisites
         * Python >= 3.6
@@ -94,7 +91,7 @@ Description: # AlchemyML API Documentation
             url = url_base + '/token/'
             data = json.dumps({'username':username, 'password':password})
             session = retry_session(retries = 10)
-            r = session.post(url, data, verify = False)
+            r = session.post(url, data)
         
             if r.status_code == 200:
                 tokenJSON = json.loads(r.text)

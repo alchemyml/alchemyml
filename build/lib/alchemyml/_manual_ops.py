@@ -19,7 +19,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
     
     def download_dataframe(self, *args, **kwargs):
         '''
@@ -43,7 +43,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
     
     def prepare_dataframe(self, *args, **kwargs):
         '''
@@ -68,7 +68,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
     
     def encode_dataframe(self, *args, **kwargs):
         '''
@@ -92,7 +92,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
     
     def drop_highly_correlated_components(self, *args, **kwargs):
         '''
@@ -120,7 +120,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
     
     def impute_inconsistencies(self, *args, **kwargs):
         '''
@@ -149,7 +149,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
         
     def drop_invalid_columns(self, *args, **kwargs):
         '''
@@ -170,7 +170,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)       
+        return general_call(self, str_meth_name, input_args, input_kwargs)       
 
     def target_column_analysis(self, *args, **kwargs):
         '''
@@ -190,7 +190,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
 
     def balancing_dataframe(self, *args, **kwargs):
         '''
@@ -219,7 +219,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
         
     def initial_exp_info(self, *args, **kwargs):
         '''
@@ -235,7 +235,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
     
     def impute_missing_values(self, *args, **kwargs):
         '''
@@ -256,7 +256,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
 
     def merge_cols_into_dt_index(self, *args, **kwargs):
         '''
@@ -278,7 +278,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
 
     def detect_experiment_type(self, *args, **kwargs):
         '''
@@ -299,7 +299,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
     
     def build_model(self, *args, **kwargs):
         '''
@@ -318,7 +318,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
 
     def operational_info(self, *args, **kwargs):
         '''
@@ -345,7 +345,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)   
+        return general_call(self, str_meth_name, input_args, input_kwargs)   
         
     def detect_outliers(self, *args, **kwargs):
         '''
@@ -368,7 +368,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
 
     def impute_outliers(self, *args, **kwargs):
         '''
@@ -388,5 +388,5 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs) 
+        return general_call(self, str_meth_name, input_args, input_kwargs) 
 

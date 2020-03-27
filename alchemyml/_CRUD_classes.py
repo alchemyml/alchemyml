@@ -1,34 +1,8 @@
-# vers anterior AML2310.py
 import json
 import os
 import sys
 
 from ._request_handler import retry_session, general_call
-
-class authentication():
-    def get_api_token(self, username, password):
-        '''
-        This method returns the necessary token to be used from now on for the 
-        API requests. To be able to make use of the API before all it is 
-        necessary to sign-up.
-
-        Parameters:
-
-        username (str): Username. 
-        password (str): Password. 
-        '''
-        url = 'https://alchemyml.com/api/token/'
-        data = json.dumps({'username':username, 'password':password})
-        session = retry_session(retries = 10)
-        r = session.post(url, data, verify = False)
-
-        if r.status_code == 200:
-            tokenJSON = json.loads(r.text)
-            return tokenJSON['access']
-        else:
-            msgJSON = json.loads(r.text)
-            msg = msgJSON['message']
-            return msg
 
 class dataset():
 
@@ -58,7 +32,7 @@ class dataset():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def get(self, *args, **kwargs):
         '''
@@ -81,7 +55,7 @@ class dataset():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
     
     def update(self, *args, **kwargs):
         '''
@@ -103,7 +77,7 @@ class dataset():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def delete(self, *args, **kwargs):
         '''
@@ -127,7 +101,7 @@ class dataset():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def statistical_descriptors(self, *args, **kwargs):
         '''
@@ -144,7 +118,7 @@ class dataset():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
 class experiment():
 
@@ -186,7 +160,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def get(self, *args, **kwargs):
         '''
@@ -210,7 +184,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def update(self, *args, **kwargs):
         '''
@@ -233,7 +207,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def delete(self, *args, **kwargs):
         '''
@@ -253,7 +227,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def statistical_descriptors(self, *args, **kwargs):
         '''
@@ -270,7 +244,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def results(self, *args, **kwargs):
         '''
@@ -295,7 +269,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def add_to_project(self, *args, **kwargs):
         '''
@@ -322,7 +296,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def extract_from_project(self, *args, **kwargs):
         '''
@@ -341,7 +315,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
     def send(self, *args, **kwargs):
         '''
@@ -363,7 +337,7 @@ class experiment():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)
+        return general_call(self, str_meth_name, input_args, input_kwargs)
 
 class project():
 
@@ -393,7 +367,7 @@ class project():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
 
     def get(self, *args, **kwargs):
         '''
@@ -416,7 +390,7 @@ class project():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs) 
+        return general_call(self, str_meth_name, input_args, input_kwargs) 
 
     def update(self, *args, **kwargs):
         '''
@@ -438,7 +412,7 @@ class project():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
 
     def delete(self, *args, **kwargs):
         '''
@@ -458,5 +432,5 @@ class project():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)    
      

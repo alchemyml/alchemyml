@@ -25,11 +25,10 @@ def retry_session(retries, session = None, backoff_factor = 0.3,
     session.mount('https://', adapter)
     return session
 
-def general_call(str_meth_name, input_args, input_kwargs):
+def general_call(self, str_meth_name, input_args, input_kwargs):
     if str_meth_name in dict_urlData.keys():
-        if 'token' in input_kwargs:
-            api_token = input_kwargs['token']
-            input_kwargs.pop('token')
+        if hasattr(self, 'token'):
+            api_token = self.token
         else:
             api_token = ''
 
@@ -44,7 +43,7 @@ def general_call(str_meth_name, input_args, input_kwargs):
         if not 'file_path' in input_kwargs.keys():
             headers['Content-type'] = 'application/json'
             session = retry_session(retries = 10)
-            api_request = session.post(urlData, headers = headers, json = mi_data, verify = False) # verify quitar
+            api_request = session.post(urlData, headers = headers, json = mi_data)
 
         else:
             file_path = input_kwargs['file_path']
@@ -63,7 +62,7 @@ def general_call(str_meth_name, input_args, input_kwargs):
             files = {'file_path': open(file_path, 'rb')}
             session = retry_session(retries=10)
             api_request = session.post(urlData, headers = headers, 
-                                       files = files, data = mi_data, verify = False) # verify quitar
+                                       files = files, data = mi_data)
         
         res_json = json.loads(api_request.text)
         res_json_return = res_json.copy()
@@ -72,7 +71,7 @@ def general_call(str_meth_name, input_args, input_kwargs):
             if 'data' in res_json.keys():
                 if isinstance(res_json['data'], dict ) and ('url' in res_json['data'].keys()):
                     session = retry_session(retries=10)
-                    r = session.get(res_json['data']['url'], verify = False) # verify quitar
+                    r = session.get(res_json['data']['url'])
                     f_name = str(res_json['data']['url']).split("/")[-1]
                     open(f_name, 'wb').write(r.content)
 

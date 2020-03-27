@@ -1,5 +1,5 @@
 # AlchemyML API Documentation
-Version Date: 2020-03-26
+Version Date: 2020-03-27
 <hr>
 
 ## Prerequisites
@@ -19,9 +19,10 @@ AlchemyML API is an easy way to use advanced data analysis techniques in Python,
 AlchemyML API has operations at the dataset level (upload, list, delete...), at the experiment level (create, send, add to project, view metrics and logs...) and at the project level (create, update, delete...). Moreover, it also has specific actions so that the client can perform her/his own experiment manually: pre-process the dataset, remove highly correlated columns, detect outliers, impute missings...
 
 ## List of scripts and their functions
-* _CRUD_classes
-  * authentication()
+* __init__
+  * alchemyml()
     * get_api_token
+* _CRUD_classes
   * dataset()
     * upload
     * view
@@ -64,34 +65,40 @@ AlchemyML API has operations at the dataset level (upload, list, delete...), at 
     * impute_outliers
     * download_properties_df
 
-## _CRUD_classes.py - Code explanations
+## __init__.py - Code explanations
 
 ### Prerequisites - Imports
 * **Python** packages:
   * JSON: `import json`
-  * OS: `import os`
-  * Sys: `import sys`
-* Functions from **_request_handler**:
-  * `from ._request_handler import retry_session, general_call`
+* Internal classes and functions from **alchemyml**:
+  * `from ._CRUD_classes import dataset, experiment, project`
+  * `from ._manual_ops import actions`
+  * `from ._request_handler import retry_session`
 
-### class _authentication_
-The class to be used to authenticate, through the _get_api_token_ method. 
+### class _alchemyml_
+Main class containing all AlchemyML functionalities
 
 #### method _get_api_token_
 ```python
-def get_api_token(self, username, password):
-    url = url_base + '/token/'
-    data = json.dumps({'username':username, 'password':password})
-    session = retry_session(retries = 10)
-    r = session.post(url, data)
+    def get_api_token(self, username, password):
+        from ._request_handler import retry_session
 
-    if r.status_code == 200:
-        tokenJSON = json.loads(r.text)
-        return r.status_code, tokenJSON['access']
-    else:
-        msgJSON = json.loads(r.text)
-        msg = msgJSON['message']
-        return r.status_code, msg
+        url = 'https://alchemyml.com/api/token/'
+        data = json.dumps({'username':username, 'password':password})
+        session = retry_session(retries = 10)
+        r = session.post(url, data)
+
+        if r.status_code == 200:
+            tokenJSON = json.loads(r.text)
+            self.dataset.token = tokenJSON['access']
+            self.experiment.token = tokenJSON['access']
+            self.project.token = tokenJSON['access']
+            self.actions.token = tokenJSON['access']
+            return tokenJSON['access']
+        else:
+            msgJSON = json.loads(r.text)
+            msg = msgJSON['message']
+            return msg
 ```
 
 ##### Description
@@ -101,6 +108,16 @@ This method returns the necessary token to be used from now on for the API reque
 * Parameters:
     * _**username**_ (_str_): Username. 
     * _**password**_ (_str_): Password. 
+
+## _CRUD_classes.py - Code explanations
+
+### Prerequisites - Imports
+* **Python** packages:
+  * JSON: `import json`
+  * OS: `import os`
+  * Sys: `import sys`
+* Functions from **_request_handler**:
+  * `from ._request_handler import retry_session, general_call`
 
 ### class _dataset_
 This class unifies and condenses all the operations related to datasets in their most general sense: uploading them to the workspace, listing them, removing them...
@@ -114,7 +131,7 @@ def upload(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -141,7 +158,7 @@ def get(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -162,7 +179,7 @@ def update(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -182,7 +199,7 @@ def delete(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -202,7 +219,7 @@ def statistical_descriptors(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -225,7 +242,7 @@ def create(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -255,7 +272,7 @@ def get(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -276,7 +293,7 @@ def update(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -296,7 +313,7 @@ def delete(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -316,7 +333,7 @@ def statistical_descriptors(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -335,7 +352,7 @@ def results(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -357,7 +374,7 @@ def add_to_project(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -379,7 +396,7 @@ def extract_from_project(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -398,7 +415,7 @@ def send(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)
+    return general_call(self, str_meth_name, input_args, input_kwargs)
 ```
 
 ##### Description
@@ -424,7 +441,7 @@ def create(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs) 
+    return general_call(self, str_meth_name, input_args, input_kwargs) 
 ```
 
 ##### Description
@@ -446,7 +463,7 @@ def get(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs) 
+    return general_call(self, str_meth_name, input_args, input_kwargs) 
 ```
 
 ##### Description
@@ -467,7 +484,7 @@ def update(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs) 
+    return general_call(self, str_meth_name, input_args, input_kwargs) 
 ```
 
 ##### Description
@@ -487,7 +504,7 @@ def delete(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs) 
+    return general_call(self, str_meth_name, input_args, input_kwargs) 
 ```
 
 ##### Description
@@ -518,7 +535,7 @@ def list_preprocessed_dataframes(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -537,7 +554,7 @@ def download_dataframe(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -558,7 +575,7 @@ def prepare_dataframe(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -579,7 +596,7 @@ def encode_dataframe(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -602,7 +619,7 @@ def drop_highly_correlated_components(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -628,7 +645,7 @@ def impute_inconsistencies(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -652,7 +669,7 @@ def drop_invalid_columns(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -673,7 +690,7 @@ def target_column_analysis(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -693,7 +710,7 @@ def balancing_dataframe(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -717,7 +734,7 @@ def initial_exp_info(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -735,7 +752,7 @@ def impute_missing_values(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -756,7 +773,7 @@ def merge_cols_into_dt_index(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -777,7 +794,7 @@ def detect_experiment_type(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -798,7 +815,7 @@ def build_model(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -818,7 +835,7 @@ def operational_info(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -841,7 +858,7 @@ def detect_outliers(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description
@@ -862,7 +879,7 @@ def impute_outliers(self, *args, **kwargs):
     input_args = locals()['args']
     input_kwargs = locals()['kwargs']
 
-    return general_call(str_meth_name, input_args, input_kwargs)    
+    return general_call(self, str_meth_name, input_args, input_kwargs)    
 ```
 
 ##### Description

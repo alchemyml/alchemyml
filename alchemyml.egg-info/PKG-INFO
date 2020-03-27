@@ -1,13 +1,13 @@
 Metadata-Version: 2.1
 Name: alchemyml
-Version: 0.1.26
+Version: 0.1.27
 Summary: AlchemyML API package
 Home-page: https://github.com/alchemyml/alchemyml
 Author: Alchemy Machine Learning, S. L.
 Author-email: admin@alchemyml.com
 License: UNKNOWN
 Description: # AlchemyML API Documentation
-        Version Date: 2020-03-26
+        Version Date: 2020-03-27
         <hr>
         
         ## Prerequisites
@@ -27,9 +27,10 @@ Description: # AlchemyML API Documentation
         AlchemyML API has operations at the dataset level (upload, list, delete...), at the experiment level (create, send, add to project, view metrics and logs...) and at the project level (create, update, delete...). Moreover, it also has specific actions so that the client can perform her/his own experiment manually: pre-process the dataset, remove highly correlated columns, detect outliers, impute missings...
         
         ## List of scripts and their functions
-        * _CRUD_classes
-          * authentication()
+        * __init__
+          * alchemyml()
             * get_api_token
+        * _CRUD_classes
           * dataset()
             * upload
             * view
@@ -72,34 +73,40 @@ Description: # AlchemyML API Documentation
             * impute_outliers
             * download_properties_df
         
-        ## _CRUD_classes.py - Code explanations
+        ## __init__.py - Code explanations
         
         ### Prerequisites - Imports
         * **Python** packages:
           * JSON: `import json`
-          * OS: `import os`
-          * Sys: `import sys`
-        * Functions from **_request_handler**:
-          * `from ._request_handler import retry_session, general_call`
+        * Internal classes and functions from **alchemyml**:
+          * `from ._CRUD_classes import dataset, experiment, project`
+          * `from ._manual_ops import actions`
+          * `from ._request_handler import retry_session`
         
-        ### class _authentication_
-        The class to be used to authenticate, through the _get_api_token_ method. 
+        ### class _alchemyml_
+        Main class containing all AlchemyML functionalities
         
         #### method _get_api_token_
         ```python
-        def get_api_token(self, username, password):
-            url = url_base + '/token/'
-            data = json.dumps({'username':username, 'password':password})
-            session = retry_session(retries = 10)
-            r = session.post(url, data)
+            def get_api_token(self, username, password):
+                from ._request_handler import retry_session
         
-            if r.status_code == 200:
-                tokenJSON = json.loads(r.text)
-                return r.status_code, tokenJSON['access']
-            else:
-                msgJSON = json.loads(r.text)
-                msg = msgJSON['message']
-                return r.status_code, msg
+                url = 'https://alchemyml.com/api/token/'
+                data = json.dumps({'username':username, 'password':password})
+                session = retry_session(retries = 10)
+                r = session.post(url, data)
+        
+                if r.status_code == 200:
+                    tokenJSON = json.loads(r.text)
+                    self.dataset.token = tokenJSON['access']
+                    self.experiment.token = tokenJSON['access']
+                    self.project.token = tokenJSON['access']
+                    self.actions.token = tokenJSON['access']
+                    return tokenJSON['access']
+                else:
+                    msgJSON = json.loads(r.text)
+                    msg = msgJSON['message']
+                    return msg
         ```
         
         ##### Description
@@ -109,6 +116,16 @@ Description: # AlchemyML API Documentation
         * Parameters:
             * _**username**_ (_str_): Username. 
             * _**password**_ (_str_): Password. 
+        
+        ## _CRUD_classes.py - Code explanations
+        
+        ### Prerequisites - Imports
+        * **Python** packages:
+          * JSON: `import json`
+          * OS: `import os`
+          * Sys: `import sys`
+        * Functions from **_request_handler**:
+          * `from ._request_handler import retry_session, general_call`
         
         ### class _dataset_
         This class unifies and condenses all the operations related to datasets in their most general sense: uploading them to the workspace, listing them, removing them...
@@ -122,7 +139,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -149,7 +166,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -170,7 +187,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -190,7 +207,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -210,7 +227,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -233,7 +250,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -263,7 +280,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -284,7 +301,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -304,7 +321,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -324,7 +341,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -343,7 +360,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -365,7 +382,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -387,7 +404,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -406,7 +423,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)
+            return general_call(self, str_meth_name, input_args, input_kwargs)
         ```
         
         ##### Description
@@ -432,7 +449,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs) 
+            return general_call(self, str_meth_name, input_args, input_kwargs) 
         ```
         
         ##### Description
@@ -454,7 +471,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs) 
+            return general_call(self, str_meth_name, input_args, input_kwargs) 
         ```
         
         ##### Description
@@ -475,7 +492,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs) 
+            return general_call(self, str_meth_name, input_args, input_kwargs) 
         ```
         
         ##### Description
@@ -495,7 +512,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs) 
+            return general_call(self, str_meth_name, input_args, input_kwargs) 
         ```
         
         ##### Description
@@ -526,7 +543,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -545,7 +562,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -566,7 +583,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -587,7 +604,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -610,7 +627,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -636,7 +653,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -660,7 +677,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -681,7 +698,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -701,7 +718,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -725,7 +742,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -743,7 +760,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -764,7 +781,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -785,7 +802,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -806,7 +823,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -826,7 +843,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -849,7 +866,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description
@@ -870,7 +887,7 @@ Description: # AlchemyML API Documentation
             input_args = locals()['args']
             input_kwargs = locals()['kwargs']
         
-            return general_call(str_meth_name, input_args, input_kwargs)    
+            return general_call(self, str_meth_name, input_args, input_kwargs)    
         ```
         
         ##### Description

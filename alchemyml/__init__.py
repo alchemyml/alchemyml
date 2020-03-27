@@ -38,16 +38,13 @@ class alchemyml():
 
         if r.status_code == 200:
             tokenJSON = json.loads(r.text)
-            self.token = tokenJSON['access']
-            return self.token
+            self.dataset.token = tokenJSON['access']
+            self.experiment.token = tokenJSON['access']
+            self.project.token = tokenJSON['access']
+            self.actions.token = tokenJSON['access']
+            return tokenJSON['access']
         else:
             msgJSON = json.loads(r.text)
             msg = msgJSON['message']
             return msg
-
-    dataset = dataset
-    experiment = experiment
-    project = project
-    actions = actions
-
 

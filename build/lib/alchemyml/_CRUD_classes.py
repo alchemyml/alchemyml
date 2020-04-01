@@ -5,6 +5,11 @@ import sys
 from ._request_handler import retry_session, general_call
 
 class dataset():
+    '''
+    Class to manage operations on datasets: uploading, updating, getting a 
+    list of available datasets in the workspace, deleting and computing 
+    statistical descriptors. 
+    '''
 
     class_name = sys._getframe().f_code.co_name
 
@@ -121,6 +126,15 @@ class dataset():
         return general_call(self, str_meth_name, input_args, input_kwargs)
 
 class experiment():
+    '''
+    Class to manage operations on experiments: creating, updating, getting a 
+    list of available experiments in the workspace, deleting, computing 
+    statistical descriptors of intermediate dataframes in the workflow of the 
+    experiment, displaying experiment's results (model metrics, logs...) and 
+    sending the experiment to another user of AlchemyML. Moreover, operations 
+    related with projects are also available: adding an experiment to a project 
+    and removing an experiment from a project. 
+    '''
 
     class_name = sys._getframe().f_code.co_name
 
@@ -340,6 +354,10 @@ class experiment():
         return general_call(self, str_meth_name, input_args, input_kwargs)
 
 class project():
+    '''
+    Class to manage operations on projects: creating, updating, getting a 
+    list of available projects in the workspace and deleting. 
+    '''
 
     class_name = sys._getframe().f_code.co_name
 

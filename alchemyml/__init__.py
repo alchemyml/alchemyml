@@ -14,6 +14,12 @@ artificial intelligence tools to optimize their work, time and resources.
 '''
 
 class alchemyml():
+    '''
+    Main AlchemyML class containing all available classes and methods. To load 
+    the token into the object is necessary to call "get_api_token" method, and 
+    then all methods will be available through classes "dataset", "experiment", 
+    "project" or "actions". 
+    '''
 
     from ._CRUD_classes import dataset, experiment, project
     from ._manual_ops import actions
@@ -43,6 +49,7 @@ class alchemyml():
             self.project.token = tokenJSON['access']
             self.actions.token = tokenJSON['access']
             return tokenJSON['access']
+
         else:
             msgJSON = json.loads(r.text)
             msg = msgJSON['message']

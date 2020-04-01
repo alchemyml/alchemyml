@@ -2,6 +2,13 @@ import sys
 from ._request_handler import general_call
 
 class actions():
+    '''
+    Class that includes all the functionalities available in AlchemyML for a 
+    manual experiment. Data preprocessing, missing values' and outliers' 
+    detection and imputation, classification data balancing, predictive models 
+    building... all these functionalities and more are available through 
+    methods of this class. 
+    '''
 
     def list_preprocessed_dataframes(self, *args, **kwargs):
         '''

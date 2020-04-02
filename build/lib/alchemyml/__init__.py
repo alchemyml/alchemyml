@@ -21,7 +21,7 @@ class alchemyml():
     "project" or "actions". 
     '''
 
-    from ._CRUD_classes import dataset, experiment, project
+    from ._CRUD_classes import dataset, experiment, project, authentication
     from ._manual_ops import actions
 
     def get_api_token(self, username, password):

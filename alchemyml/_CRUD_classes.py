@@ -5,11 +5,6 @@ import sys
 from ._request_handler import retry_session, general_call
 
 class authentication():
-
-    from warnings import warn
-    msg = 'authentication() is deprecated and it will be removed in alchemyml \
-        0.1.30; use method get_api_token directly from class alchemyml instead'
-    warn(msg, DeprecationWarning)
     
     def get_api_token(self, username, password):
         '''
@@ -23,6 +18,13 @@ class authentication():
         password (str): Password. 
         '''
         from ._request_handler import retry_session
+        from warnings import warn, filterwarnings
+
+        filterwarnings('always')
+        msg = 'authentication() is deprecated and it will be removed in \
+            alchemyml 0.1.31; use method get_api_token directly from class \
+            alchemyml instead'
+        warn(msg, DeprecationWarning)
 
         url = 'https://alchemyml.com/api/token/'
         data = json.dumps({'username':username, 'password':password})

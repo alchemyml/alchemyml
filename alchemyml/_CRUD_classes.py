@@ -22,7 +22,7 @@ class authentication():
 
         filterwarnings('always')
         msg = 'authentication() is deprecated and it will be removed in \
-            alchemyml 0.1.31; use method get_api_token directly from class \
+            alchemyml 0.1.32; use method get_api_token directly from class \
             alchemyml instead'
         warn(msg, DeprecationWarning)
 

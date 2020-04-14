@@ -64,6 +64,7 @@ def general_call(self, str_meth_name, input_args, input_kwargs):
             api_request = session.post(urlData, headers = headers, 
                                        files = files, data = mi_data)
         
+        session.close()
         res_json = json.loads(api_request.text)
         res_json_return = res_json.copy()
         res_json_return['status_code'] = api_request.status_code
@@ -74,6 +75,7 @@ def general_call(self, str_meth_name, input_args, input_kwargs):
                     r = session.get(res_json['data']['url'])
                     f_name = str(res_json['data']['url']).split("/")[-1]
                     open(f_name, 'wb').write(r.content)
+                    session.close()
 
                     return 'File '+ f_name + ' successfully generated.'
                 

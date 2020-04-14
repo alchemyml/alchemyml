@@ -22,7 +22,7 @@ class authentication():
 
         filterwarnings('always')
         msg = 'authentication() is deprecated and it will be removed in \
-            alchemyml 0.1.32; use method get_api_token directly from class \
+            alchemyml 0.1.33; use method get_api_token directly from class \
             alchemyml instead'
         warn(msg, DeprecationWarning)
 
@@ -30,6 +30,7 @@ class authentication():
         data = json.dumps({'username':username, 'password':password})
         session = retry_session(retries = 10)
         r = session.post(url, data)
+        session.close()
 
         if r.status_code == 200:
             tokenJSON = json.loads(r.text)

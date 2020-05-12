@@ -20,9 +20,7 @@ class authentication():
         from warnings import warn, filterwarnings
 
         filterwarnings('always')
-        msg = 'authentication() is deprecated and it will be removed in \
-            alchemyml 0.1.34; use method get_api_token directly from class \
-            alchemyml instead'
+        msg = 'authentication() is deprecated and it will be removed in alchemyml 0.1.35; use method get_api_token directly from class alchemyml instead'
         warn(msg, DeprecationWarning)
 
         url = 'https://alchemyml.com/api/token/'

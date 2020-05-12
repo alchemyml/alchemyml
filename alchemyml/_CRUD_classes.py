@@ -1,8 +1,6 @@
-import json
-import os
 import sys
 
-from ._request_handler import retry_session, general_call
+from ._request_handler import general_call
 
 class authentication():
     
@@ -17,12 +15,13 @@ class authentication():
         username (str): Username. 
         password (str): Password. 
         '''
+        import json
         from ._request_handler import retry_session
         from warnings import warn, filterwarnings
 
         filterwarnings('always')
         msg = 'authentication() is deprecated and it will be removed in \
-            alchemyml 0.1.33; use method get_api_token directly from class \
+            alchemyml 0.1.34; use method get_api_token directly from class \
             alchemyml instead'
         warn(msg, DeprecationWarning)
 
@@ -156,7 +155,37 @@ class dataset():
         dataset_name (str): Name of the dataset to return statistical descriptors.
         '''
         str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
+        input_args = locals()['args']
+        input_kwargs = locals()['kwargs']
 
+        return general_call(self, str_meth_name, input_args, input_kwargs)
+
+    def download(self, *args, **kwargs):
+        '''
+        Method to download a dataset from the workspace
+
+        Parameters:
+
+        token (str): API Token
+        dataset_name (str/list): Name or list of names of the dataset(s) to download
+        '''
+        str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
+        input_args = locals()['args']
+        input_kwargs = locals()['kwargs']
+
+        return general_call(self, str_meth_name, input_args, input_kwargs)
+
+    def send(self, *args, **kwargs):
+        '''
+        Method to send a dataset to another user
+
+        Parameters:
+
+        token (str): API Token
+        dataset_name (str/list): Name or list of names of the dataset(s) to download
+        destination_email (str): Mail of destination
+        '''
+        str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 

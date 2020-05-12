@@ -29,6 +29,8 @@ AlchemyML API has operations at the dataset level (upload, list, delete...), at 
     * update
     * delete
     * statistical_descriptors
+    * download
+    * send
   * experiment()
     * create
     * view
@@ -229,6 +231,43 @@ This method returns the most relevant statistical descriptors for each column of
 * Parameters:
     * _**token**_ (_str_): API Token
     * _**dataset_name**_ (_str_): Name of the dataset to return statistical descriptors.
+
+#### method _download_
+```python
+def download(self, *args, **kwargs):  
+    str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
+    input_args = locals()['args']
+    input_kwargs = locals()['kwargs']
+
+    return general_call(self, str_meth_name, input_args, input_kwargs)
+```
+
+##### Description
+Method to download a dataset from the workspace
+
+##### I/O
+* Parameters:
+    * _**token**_ (_str_): API Token
+    * _**dataset_name**_ (_str_/_list_): Name/list of names of the dataset/datasets to download
+
+#### method _send_
+```python
+def send(self, *args, **kwargs):  
+    str_meth_name = self.class_name + '.' + sys._getframe().f_code.co_name
+    input_args = locals()['args']
+    input_kwargs = locals()['kwargs']
+
+    return general_call(self, str_meth_name, input_args, input_kwargs)
+```
+
+##### Description
+Method to send a dataset to another user
+
+##### I/O
+* Parameters:
+    * _**token**_ (_str_): API Token
+    * _**dataset_name**_ (_str_/_list_): Name/list of names of the dataset/datasets to download
+    * _**destination_email**_ (_str_): Mail of destination
 
 ### class _experiment_
 This class unifies and condenses all the operations related to experiments in their most general sense: uploading them to the workspace, listing them, removing them... this class also contains the methods for adding experiments to projects, updating them, deleting them...

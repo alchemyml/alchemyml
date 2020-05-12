@@ -1,5 +1,3 @@
-import json 
-
 from ._version import __version__
 
 __doc__ = '''
@@ -35,6 +33,7 @@ class alchemyml():
         username (str): Username. 
         password (str): Password. 
         '''
+        import json
         from ._request_handler import retry_session
 
         url = 'https://alchemyml.com/api/token/'
@@ -51,8 +50,16 @@ class alchemyml():
             self.actions.token = tokenJSON['access']
             return tokenJSON['access']
 
+        elif r.status_code == 404:
+            return '404: Not Found'
+
+        elif r.status_code == 500:
+            return '500: Internal Server Error'
+
+        elif r.status_code == 503:
+            return '503: Service Unavailable'
+
         else:
             msgJSON = json.loads(r.text)
-            msg = msgJSON['message']
-            return msg
+            return msgJSON['message']
 

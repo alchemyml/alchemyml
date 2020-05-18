@@ -81,16 +81,19 @@ def general_call(self, str_meth_name, input_args, input_kwargs):
                     f_name = str(res_json['data']['url']).split("/")[-1]
                     if str_meth_name == 'dataset.download':
                         if 'file_path' in locals():
-                            file_path += '/' + f_name
-                            urlretrieve(res_json['data']['url'], file_path)
+                            path_downloads = file_path
+                            complete_path = file_path + '/' + f_name
+                            urlretrieve(res_json['data']['url'], complete_path)
                         else:
                             op_system = platform.system()
                             if op_system == 'Windows':
                                 path_downloads = str(os.path.join(os.path.join(os.environ['USERPROFILE']), 'Downloads'))
                             else:
                                 path_downloads = str(os.path.join(Path.home(), "Downloads"))
-                            path_downloads += '/' + f_name
-                            urlretrieve(res_json['data']['url'], path_downloads)
+                            complete_path = path_downloads + '/' + f_name
+                            urlretrieve(res_json['data']['url'], complete_path)
+
+                        return 'File ' + f_name + ' successfully generated to ' + path_downloads
 
                     else:
                         session = retry_session(retries=10)
@@ -100,7 +103,7 @@ def general_call(self, str_meth_name, input_args, input_kwargs):
                         file.write(r.content)
                         file.close()
 
-                    return 'File ' + f_name + ' successfully generated.'
+                        return 'File ' + f_name + ' successfully generated'
                 
                 else:
                     return res_json_return

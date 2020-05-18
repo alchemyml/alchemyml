@@ -15,28 +15,9 @@ class authentication():
         username (str): Username. 
         password (str): Password. 
         '''
-        import json
-        from ._request_handler import retry_session
-        from warnings import warn, filterwarnings
 
-        filterwarnings('always')
-        msg = 'authentication() is deprecated and it will be removed in alchemyml 0.1.35; use method get_api_token directly from class alchemyml instead'
-        warn(msg, DeprecationWarning)
-
-        url = 'https://alchemyml.com/api/token/'
-        data = json.dumps({'username':username, 'password':password})
-        session = retry_session(retries = 10)
-        r = session.post(url, data)
-        session.close()
-
-        if r.status_code == 200:
-            tokenJSON = json.loads(r.text)
-            return tokenJSON['access']
-
-        else:
-            msgJSON = json.loads(r.text)
-            msg = msgJSON['message']
-            return msg
+        msg = 'Class authentication() is deprecated: use method get_api_token() directly from alchemyml instead'
+        raise ModuleNotFoundError(msg)
 
 class dataset():
     '''

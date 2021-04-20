@@ -226,23 +226,7 @@ class actions():
         input_args = locals()['args']
         input_kwargs = locals()['kwargs']
 
-        return general_call(self, str_meth_name, input_args, input_kwargs)    
-        
-    def initial_exp_info(self, *args, **kwargs):
-        '''
-        This method returns initial information for the specified experiment.
-
-        Parameters:
-
-        token (str): API Token. 
-        experiment_name (str): Name of the experiment on which process 
-            will take place.
-        '''
-        str_meth_name = sys._getframe().f_code.co_name
-        input_args = locals()['args']
-        input_kwargs = locals()['kwargs']
-
-        return general_call(self, str_meth_name, input_args, input_kwargs)    
+        return general_call(self, str_meth_name, input_args, input_kwargs)       
     
     def impute_missing_values(self, *args, **kwargs):
         '''

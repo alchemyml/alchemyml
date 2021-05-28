@@ -1,5 +1,5 @@
 # AlchemyML API Documentation
-Version Date: 2020-03-27
+Version Date: 2021-05-28
 <hr>
 
 ## Prerequisites
@@ -57,7 +57,6 @@ AlchemyML API has operations at the dataset level (upload, list, delete...), at 
     * drop_invalid_columns
     * target_column_analysis
     * balancing_dataframe
-    * initial_exp_info
     * impute_missing_values
     * merge_cols_into_dt_index
     * detect_experiment_type
@@ -65,7 +64,6 @@ AlchemyML API has operations at the dataset level (upload, list, delete...), at 
     * operational_info
     * detect_outliers
     * impute_outliers
-    * download_properties_df
 
 ## __init__.py - Code explanations
 
@@ -148,7 +146,6 @@ We recommend you to consider the next points before uploading your dataset:
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**file_path**_ (_str_): The path where the dataset file is located. 
     * _**dataset_name**_ (_str_): Custom name for the dataset file. 
     * _**description**_ (_str_, optional): Optional parameter to specify description if needed for the dataset. If no description is inputted, no description is added to the dataset. 
@@ -170,7 +167,6 @@ This method lists the datasets available in the workspace.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**dataset_name**_ (_str_/_list_, optional): Name or list of names of the dataset(s) for which details will be returned.
     * _**detail**_ (_bool_, optional): Optional boolean parameter to return the details for the specified dataset(s) (False/ True).
 
@@ -189,7 +185,6 @@ This method gives the option to rename a dataset and/ or update the datasets des
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**dataset_name**_ (_str_, optional): Name of the dataset to update.
     * _**new_dataset_name**_ (_str_, optional): New name of the specified dataset. If no name is inputted, the dataset won't be renamed.
     * _**new_description**_ (_str_/_list_, optional): New description for the specified dataset. If no description is inputted, the description is not going to be updated.
@@ -211,7 +206,6 @@ AlchemyML is not responsible for any consequences that may be caused by removing
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**dataset_name**_ (_str_/_list_): Name or list of names of the datasets to be removed from workspace. If _All_ used, then all datasets will be removed. Datasets will be removed only if were not used in any experiment.
 
 #### method _statistical_descriptors_
@@ -229,7 +223,6 @@ This method returns the most relevant statistical descriptors for each column of
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token
     * _**dataset_name**_ (_str_): Name of the dataset to return statistical descriptors.
 
 #### method _download_
@@ -247,8 +240,8 @@ Method to download a dataset from the workspace
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token
-    * _**dataset_name**_ (_str_/_list_): Name/list of names of the dataset/datasets to download
+    * _**dataset_name**_ (_str_): Name of the dataset to download
+    * _**file_path**_ (_str_, optional): Path to download the dataset. By default, the dataset is downloaded to Downloads folder.
 
 #### method _send_
 ```python
@@ -265,9 +258,8 @@ Method to send a dataset to another user
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token
-    * _**dataset_name**_ (_str_/_list_): Name/list of names of the dataset/datasets to download
-    * _**destination_email**_ (_str_): Mail of destination
+    * _**dataset_name**_ (_str_): Name of the dataset to send
+    * _**destination_email**_ (_str_): E-mail of the user to whom the dataset is to be sent
 
 ### class _experiment_
 This class unifies and condenses all the operations related to experiments in their most general sense: uploading them to the workspace, listing them, removing them... this class also contains the methods for adding experiments to projects, updating them, deleting them...
@@ -295,13 +287,11 @@ The possible operations that can be executed are those that appear in the manual
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name used for the creation the experiment. This name is given by the user.
     * _**description**_ (_str_, optional): Optional parameter to specify description if needed for the experiment. If no description is inputted, no description is going to be added to the experiment.
     * _**dataset_name**_ (_str_): Name of the dataset used in the creation of experiment.
     * _**target_column**_ (_str_): Specifying the target column name.
     * _**clients_choice**_ (_str_): Type of experiment. Valid options: Regression, Classification, Time Series, Auto Detect. 
-    * _**input_column_names**_ (_str_, optional): Column names of the dataset to use during the experiment. If no input column is introduced, all will be taken by default.
     * _**experiment_procedure**_ (_str_, optional): Valid options are: auto or manual.
 
 #### method _get_
@@ -321,7 +311,6 @@ Such as the datasets section, this method will let you know which experiments yo
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_/_list_, optional): The name or list of experiment names to be listed.
     * _**detail**_ (_bool_, optional): Optional boolean parameter to return the details for the specified experiment(s) (False/ True).
 
@@ -340,7 +329,6 @@ This method gives the option to rename an experiment and/ or update the experime
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment to update.
     * _**new_experiment_name**_ (_str_, optional): New name of the specified experiment. If no name is inputted, the experiment is not going to be renamed.
     * _**new_description**_ (_str_/_list_, optional): New description for the specified experiment. If no description is inputted, the description is not going to be updated.
@@ -362,7 +350,6 @@ AlchemyML is not responsible for any consequences that may be caused by removing
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_/_list_): Name or list of experiment names to be deleted. If _All_ used, then all experiments will be removed.
 
 #### method _statistical_descriptors_
@@ -380,7 +367,6 @@ This method returns the most relevant statistical descriptors for each column of
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment to return statistical descriptors.
     * _**dataset_name**_ (_str_): Name of the dataset used in the experiment creation.
 
@@ -403,7 +389,6 @@ The results are delivered in a JSON structure consisting of two keys: **log**, *
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment to return the results.
 
 #### method _add_to_project_
@@ -423,10 +408,8 @@ Projects are the way to order and group different experiments that are included 
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**associated_experiments**_ (_str_/_list_): Name or list of experiment names to be included into a specified project.
     * _**project_name**_ (_str_): The name of the project in which experiment(s) will be included.
-    * _**description**_ (_str_, optional): Optional parameter to specify description if needed for the project. If no description is inputted, no description is going to be added to the experiment.
 
 #### method _extract_from_project_
 ```python
@@ -443,7 +426,6 @@ Given a project this method gives the possibility to extract specified experimen
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_/_list_): Name or list of experiment names that are desired to be extracted from a given project.
     * _**project_name**_ (_str_): The project from which will be extracted the specified experiments.
 
@@ -464,7 +446,6 @@ If the user exists, a confirmation email will be sent. When the recipient confir
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**destination_email**_ (_str_): The receivers email address.
     * _**experiment_name**_ (_str_/_list_): The name or list of experiment names to be sent.
 
@@ -490,7 +471,6 @@ Projects are the way to order and group different experiments that are included 
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token.  
     * _**project_name**_ (_str_): Name of the project.
     * _**description**_ (_str_, optional): Optional parameter to specify description if needed for the project. If no description is inputted, no description is going to be added to the project.
     * _**associated_experiments**_ (_str_/_list_, optional): Name or list of experiment names to be added to the project. If no experiments are inputted, an empty project is going to be created.
@@ -511,8 +491,7 @@ Such as the datasets section, this method will let you know which projects you h
 * By setting the _project_name_ parameter, you control for which projects return the details (one or some).
 
 ##### I/O
-* Parameters:
-    * _**token**_ (_str_): API Token.  
+* Parameters: 
     * _**project_name**_ (_str_/_list_, optional): Name or list of names of the project(s).
     * _**detail**_ (_bool_, optional): Optional boolean parameter to return the details for the specified project(s) (False/ True).
 
@@ -530,8 +509,7 @@ def update(self, *args, **kwargs):
 This method gives the option to rename a project and/ or update the projects description. At least one of the two previous options must be selected.
 
 ##### I/O
-* Parameters:
-    * _**token**_ (_str_): API Token.  
+* Parameters:  
     * _**project_name**_ (_str_): Name of the project to be updated.
     * _**new_project_name**_ (_str_, optional): New name of the specified project. If no name is inputted, the project is not going to be renamed.
     * _**new_description**_ (_str_/_list_, optional): New description for the specified project. If no description is inputted, the description is not going to be updated.
@@ -553,7 +531,6 @@ AlchemyML is not responsible for any consequences that may be caused by removing
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token.  
     * _**project_name**_ (_str_/_list_): Name or list of names of the projects to be deleted. If All used then, all projects will be removed.
  
 ## _manual_ops.py - Code explanations
@@ -582,9 +559,7 @@ Method for listing the available processed dataframes for the given experiment.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Experiment name to which processed dataframes will be returned.
-    * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
 
 #### method _download_dataframe_
 ```python
@@ -603,7 +578,6 @@ As the name of the endpoint suggests, this method gives the option to download t
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of experiment for which dataframe(s) needed to be download.
     * _**dataframe_name**_ (_str_): Dataframe name to be downloaded. Using the keyword all, all dataframes available for the experiment will be downloaded in a rar archive.
 
@@ -624,7 +598,6 @@ In general terms, it seeks to remove spaces to the left and right of a string, r
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment to be prepared.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
 
@@ -645,7 +618,6 @@ This operation is carried out because the automatic learning algorithms need to 
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment to be encoded.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
@@ -670,12 +642,13 @@ Highly correlated columns can be both numerical and categorical columns.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
     * _**prepare_dataset**_ (_bool_, optional): Optional boolean parameter that specifies if the dataset needs preparation or not.
     * _**component**_ (_str_, optional): Specifying whether you want to drop: "rows", "columns" or "both".
+    * _**delete_duplicated_indices**_ (_bool_, optional): You can specify wether to take into account the index when dropping duplicated rows.
+    * _**keep**_ (_bool_, optional): keep = False will drop the first duplicated index, and keep = True will drop the last duplicated index.
 
 #### method _impute_inconsistencies_
 ```python
@@ -694,7 +667,6 @@ You can choose between applying the operations to the entire dataset or just to 
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
@@ -716,11 +688,11 @@ Method to drop invalid columns in a experiment.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
     * _**prepare_dataset**_ (_bool_, optional): Optional boolean parameter that specifies if the dataset needs preparation or not.
+    *  _**invalid_cols**_ (_list_, optional): Optional parameter to specify a column or list of columns to be considered as invalid. 
 
 #### method _target_column_analysis_
 ```python
@@ -737,7 +709,6 @@ This is the method responsible for telling the user wether the dataset is balanc
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
     * _**prepare_dataset**_ (_bool_, optional): Optional boolean parameter that specifies if the dataset needs preparation or not.
@@ -759,7 +730,6 @@ It detects unbalanced data, decides whether the data can be balanced (extreme ca
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
@@ -781,7 +751,6 @@ This method returns initial information for the specified experiment.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
 
 #### method _impute_missing_values_
@@ -799,7 +768,6 @@ Method to use for missing values imputation.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
@@ -820,7 +788,6 @@ This is the method in charge of finding candidate columns with which to try to b
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**download**_ (_bool_, optional): Optional boolean parameter to be set up if results needed to be downloaded.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
@@ -841,7 +808,6 @@ Method that gives the option to detect experiment type.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
     * _**prepare_dataset**_ (_bool_, optional): Optional boolean parameter that specifies if the dataset needs preparation or not.
@@ -862,7 +828,6 @@ Method to build the model for a given experiment.
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**target_col_name**_ (_str_, optional): Specifying the target column name.
     * _**selected_option**_ (_str_, optional): For build the model the options available are: Regression, Classification, Time Series, Auto Detect.
@@ -886,7 +851,6 @@ In addition, you can group the time-dependent columns by intervals (morning/even
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment on which process will take place.
     * _**columns_info**_ (_str_/_list_/_dict_): Information on columns.
 
@@ -905,10 +869,8 @@ This method gives the option of detect outliers. Different strategies are availa
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Name of the experiment to be used for outlier detection.
-    * _**detection_strategy**_ (_str_, optional): Strategies available to employ for detection: univariate, bivariate, multivariate, complete.
-    * _**columns**_ (_str_/_list_/_tuple_, optional): Defines to columns on which outliers detection is going to take place.
+    * _**detection_strategy_info**_ (_dict_): Strategies available to employ for detection: univariate, bivariate, multivariate. The general form of the dictionary is: {'univariate':cols (string-list), 'bivariate':cols (string-list), 'multivariate':cols:(string-list)}. 
     * _**prepare_dataset**_ (_bool_, optional): Optional boolean parameter that specifies if the dataset needs preparation or not.
 
 #### method _impute_outliers_
@@ -926,7 +888,6 @@ Through this method outliers may be imputed using one of the available strategie
 
 ##### I/O
 * Parameters:
-    * _**token**_ (_str_): API Token. 
     * _**experiment_name**_ (_str_): Experiment name on which outliers imputation is going to take place.
     * _**cols_to_impute**_ (_str_/_list_/_float_): Defines to columns on which outliers imputation is going to take place.
     * _**handling_strategy**_ (_str_/_dict_): Available options: 'auto', 'mean', 'median', 'mode', 'random_values', 'clipping', 'n_neighbors', 'quartile'.
